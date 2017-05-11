@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                 .map { getInstance(TimeZone.getTimeZone(it)) }
                 .map { Time(it.timeZone.id, it.get(HOUR_OF_DAY), it.get(MINUTE), it.get(SECOND)) }
                 .toList()
-                .repeatWhen { it.delay(300, TimeUnit.MILLISECONDS) }
+                .repeatWhen { it.delay(1, TimeUnit.SECONDS) }
                 .subscribeOn(Schedulers.computation())
 
         disposable = adapter.setDataSource(flowable)

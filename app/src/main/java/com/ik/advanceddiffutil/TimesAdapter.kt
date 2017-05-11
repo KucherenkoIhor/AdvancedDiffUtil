@@ -20,7 +20,7 @@ class TimesAdapter : BaseAdapter<Time, TimesAdapter.TimeViewHolder>() {
         val valueAnimator: ValueAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
             this.repeatCount = ValueAnimator.INFINITE
             this.repeatMode = ValueAnimator.REVERSE
-            this.duration = 500
+            this.duration = 400
             this.start()
         }
     }
@@ -29,12 +29,15 @@ class TimesAdapter : BaseAdapter<Time, TimesAdapter.TimeViewHolder>() {
 
     override fun instantiateViewHolder(view: View?) = TimeViewHolder(view)
 
-    fun setDataSource(flowable: Flowable<List<Time>>) : Disposable
-        = flowable
+    fun setDataSource(flowable: Flowable<List<Time>>) : Disposable {
+        var newList: List<Time> = emptyList()
+        return flowable
+                .doOnNext { newList = it }
                 .map { DiffUtil.calculateDiff(TimeDiffCallback(dataSource, it)) }
-                .doOnNext { dataSource = flowable.blockingFirst() }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { dataSource = newList }
                 .subscribe { it.dispatchUpdatesTo(this) }
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(holder: TimeViewHolder?, position: Int, payloads: MutableList<Any>?) {
