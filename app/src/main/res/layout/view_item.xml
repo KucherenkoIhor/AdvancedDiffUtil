@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin_medium">
+
+    <TextView
+        tools:text="fdfdfd"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:textSize="18sp"
+        android:id="@+id/tvId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        tools:text="10"
+        android:layout_below="@+id/tvId"
+        android:id="@+id/tvHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:id="@+id/vFirstDivider"
+        android:layout_below="@+id/tvId"
+        android:layout_toRightOf="@id/tvHours"
+        android:layout_toEndOf="@id/tvHours"
+        android:text=":"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        tools:text="39"
+        android:id="@+id/tvMinutes"
+        android:layout_below="@+id/tvId"
+        android:layout_toRightOf="@id/vFirstDivider"
+        android:layout_toEndOf="@id/vFirstDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:id="@+id/vSecondDivider"
+        android:layout_below="@+id/tvId"
+        android:layout_toRightOf="@id/tvMinutes"
+        android:layout_toEndOf="@id/tvMinutes"
+        android:text=":"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        tools:text="43"
+        android:id="@+id/tvSeconds"
+        android:layout_below="@+id/tvId"
+        android:layout_toRightOf="@id/vSecondDivider"
+        android:layout_toEndOf="@id/vSecondDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
