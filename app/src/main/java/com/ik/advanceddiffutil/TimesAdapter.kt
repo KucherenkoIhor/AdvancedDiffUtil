@@ -1,13 +1,12 @@
 package com.ik.advanceddiffutil
 
 import android.animation.ValueAnimator
-import android.support.v7.util.DiffUtil
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-
 
 
 /**
@@ -27,7 +26,7 @@ class TimesAdapter : BaseAdapter<Time, TimesAdapter.TimeViewHolder>() {
 
     override fun getItemViewId() = R.layout.view_item
 
-    override fun instantiateViewHolder(view: View?) = TimeViewHolder(view)
+    override fun instantiateViewHolder(view: View) = TimeViewHolder(view)
 
     fun setDataSource(flowable: Flowable<List<Time>>) : Disposable {
         var newList: List<Time> = emptyList()
@@ -36,28 +35,28 @@ class TimesAdapter : BaseAdapter<Time, TimesAdapter.TimeViewHolder>() {
                 .map { DiffUtil.calculateDiff(TimeDiffCallback(dataSource, it)) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { dataSource = newList }
-                .subscribe { it.dispatchUpdatesTo(this) }
+                .subscribe { it.dispatchUpdatesTo(this@TimesAdapter) }
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun onBindViewHolder(holder: TimeViewHolder?, position: Int, payloads: MutableList<Any>?) {
-        if(payloads?.isEmpty() ?: true) {
+    override fun onBindViewHolder(holder: TimeViewHolder, position: Int, payloads: MutableList<Any>) {
+        if(payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
-            val set = payloads?.firstOrNull() as Set<String>?
+            val set = payloads.firstOrNull() as Set<String>?
             set?.forEach {
                 when(it) {
                     TimeDiffCallback.ID -> {
-                        holder?.tvId?.text = getItem(position).id
+                        holder.tvId?.text = getItem(position).id
                     }
                     TimeDiffCallback.HOURS -> {
-                        holder?.tvHours?.setTime(getItem(position).h)
+                        holder.tvHours?.setTime(getItem(position).h)
                     }
                     TimeDiffCallback.MINUTES -> {
-                        holder?.tvMinutes?.setTime(getItem(position).m)
+                        holder.tvMinutes?.setTime(getItem(position).m)
                     }
                     TimeDiffCallback.SECONDS -> {
-                        holder?.tvSeconds?.setTime(getItem(position).s)
+                        holder.tvSeconds?.setTime(getItem(position).s)
                     }
                     else -> super.onBindViewHolder(holder, position, payloads)
                 }
@@ -66,23 +65,23 @@ class TimesAdapter : BaseAdapter<Time, TimesAdapter.TimeViewHolder>() {
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    class TimeViewHolder(itemView: View?) : BaseViewHolder<Time>(itemView) {
+    class TimeViewHolder(itemView: View) : BaseViewHolder<Time>(itemView) {
 
-        val vFirstDivider by lazy { itemView?.findViewById(R.id.vFirstDivider) }
-        val vSecondDivider by lazy { itemView?.findViewById(R.id.vSecondDivider) }
+        val vFirstDivider: TextView = itemView.findViewById(R.id.vFirstDivider)
+        val vSecondDivider : TextView = itemView.findViewById(R.id.vSecondDivider)
+
+        val tvId by lazy { itemView.findViewById(R.id.tvId) as TextView? }
+        val tvHours by lazy { itemView.findViewById(R.id.tvHours) as TextView? }
+        val tvMinutes by lazy { itemView.findViewById(R.id.tvMinutes) as TextView? }
+        val tvSeconds by lazy { itemView.findViewById(R.id.tvSeconds) as TextView? }
+
 
         init {
             valueAnimator.addUpdateListener {
-                vFirstDivider?.alpha = it.animatedFraction
-                vSecondDivider?.alpha = it.animatedFraction
+                vFirstDivider.alpha = it.animatedFraction
+                vSecondDivider.alpha = it.animatedFraction
             }
         }
-
-        val tvId by lazy { itemView?.findViewById(R.id.tvId) as TextView? }
-        val tvHours by lazy { itemView?.findViewById(R.id.tvHours) as TextView? }
-        val tvMinutes by lazy { itemView?.findViewById(R.id.tvMinutes) as TextView? }
-        val tvSeconds by lazy { itemView?.findViewById(R.id.tvSeconds) as TextView? }
-
         override fun onBind(time: Time) {
             time.let {
                 tvId?.text = time.id

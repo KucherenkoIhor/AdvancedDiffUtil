@@ -1,6 +1,6 @@
 package com.ik.advanceddiffutil
 
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 
 /**
  * Created by ihor on 11.05.17.

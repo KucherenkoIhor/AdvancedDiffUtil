@@ -1,8 +1,8 @@
 package com.ik.advanceddiffutil
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private val rv by lazy { findViewById(R.id.rv) as RecyclerView }
+    private lateinit var rv : RecyclerView
 
     private val adapter = TimesAdapter()
 
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val timeZonesIds = resources.getStringArray(R.array.timezones_ids).asIterable()
-
+        rv = findViewById(R.id.rv)
         rv.setHasFixedSize(true)
         rv.adapter = adapter
 
